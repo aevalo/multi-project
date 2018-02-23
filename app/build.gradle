@@ -1,0 +1,26 @@
+apply plugin: 'application'
+ 
+dependencies {
+  compile project(':core')
+}
+
+jar {
+	baseName = 'greeter-app'
+	version = '0.1'
+}
+
+mainClassName = 'org.example.app.GreeterApp'
+ 
+task copyLicense {
+    outputs.file new File("$buildDir/LICENSE")
+    doLast {
+        copy {
+            from "LICENSE"
+            into "$buildDir"
+        }
+    }
+}
+ 
+applicationDistribution.from(copyLicense) {
+    into ""
+}

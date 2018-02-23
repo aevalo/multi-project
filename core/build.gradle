@@ -1,0 +1,55 @@
+buildscript {
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath 'org.junit.platform:junit-platform-gradle-plugin:1.1.0'
+	}
+}
+
+apply plugin: 'org.junit.platform.gradle.plugin'
+
+compileTestJava {
+	sourceCompatibility = 1.8
+	targetCompatibility = 1.8
+	options.compilerArgs += '-parameters'
+}
+
+ext.junitPlatformVersion = '1.1.0'
+ext.junitJupiterVersion  = '5.1.0'
+ext.log4jVersion         = '2.10.0'
+
+junitPlatform {
+	platformVersion '1.1.0'
+	filters {
+		engines {
+			include 'junit-jupiter'
+		}
+        tags {
+			// include 'fast'
+            // include 'fast', 'smoke & feature-a'
+            // exclude 'slow', 'ci'
+            exclude 'slow'
+		}
+		includeClassNamePattern '.*Test'
+	}
+	logManager 'org.apache.logging.log4j.jul.LogManager'
+    enableStandardTestTask = true
+}
+
+jar {
+	baseName = 'greeter'
+	version = '0.1'
+}
+
+dependencies {
+	testCompile("org.junit.jupiter:junit-jupiter-api:${junitJupiterVersion}")
+	testRuntime("org.junit.jupiter:junit-jupiter-engine:${junitJupiterVersion}")
+
+	// To use Log4J's LogManager
+	testRuntime("org.apache.logging.log4j:log4j-core:${log4jVersion}")
+	testRuntime("org.apache.logging.log4j:log4j-jul:${log4jVersion}")
+
+	// Only needed to run tests in an (IntelliJ) IDE(A) that bundles an older version
+	testRuntime("org.junit.platform:junit-platform-launcher:${junitPlatformVersion}")
+}
