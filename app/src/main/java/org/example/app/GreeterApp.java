@@ -1,5 +1,6 @@
 package org.example.app;
 
+import java.util.Optional;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.example.core.Greeter;
@@ -24,9 +25,9 @@ public class GreeterApp {
     {
         Greeter greeter = null;
         if (args.length > 0) {
-            greeter = new Greeter(args[0]);
+            greeter = new Greeter(Optional.of(args[0]));
         } else {
-            greeter = new Greeter();
+            greeter = new Greeter(Optional.empty());
         }
         logger.info(greeter.greeting());
         System.out.println(greeter.greeting());

@@ -10,8 +10,9 @@
 
 package org.example.core;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -28,8 +29,23 @@ class GreeterTest {
 
 	@Test
 	@DisplayName("Greeter test - parametrized constructor")
-	void customGreeting(TestInfo testInfo) {
-        Greeter greeter = new Greeter("Woz");
+	void customGreetingWithValue(TestInfo testInfo) {
+        Greeter greeter = new Greeter(Optional.of("Woz"));
 		assertEquals("Hello, Woz!!!", greeter.greeting(), "The Woz was not greeted");
 	}
+
+	@Test
+	@DisplayName("Greeter test - parametrized constructor with null")
+	void customGreetingWithNull(TestInfo testInfo) {
+        Greeter greeter = new Greeter(Optional.ofNullable(null));
+		assertEquals("Hello, World!!!", greeter.greeting(), "The World was not greeted");
+	}
+
+	@Test
+	@DisplayName("Greeter test - parametrized constructor with empty")
+	void customGreetingWithEmpty(TestInfo testInfo) {
+        Greeter greeter = new Greeter(Optional.empty());
+		assertEquals("Hello, World!!!", greeter.greeting(), "The World was not greeted");
+	}
+
 }

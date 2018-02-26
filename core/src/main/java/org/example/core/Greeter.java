@@ -1,5 +1,6 @@
 package org.example.core;
 
+import java.util.Optional;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -31,14 +32,9 @@ public class Greeter {
      * @param name  Name to greet
      * @since       0.1
      */
-    public Greeter(String name) {
-        if (name != null) {
-            logger.debug(String.format("Name given is %s", name));
-            this.name = name;
-        } else {
-            logger.debug("Name was null, defaulting to World");
-            name = "World";
-        }
+    public Greeter(Optional<String> maybeName) {
+        logger.debug(String.format("Got name: %s", maybeName.toString()));
+        this.name = maybeName.filter(name -> !name.isEmpty()).orElse("World");
     }
 
     /**
